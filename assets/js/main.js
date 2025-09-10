@@ -33,7 +33,6 @@ modalClose.forEach((mc) => {
 });
 
 /*=============== MIXITUP FILTER PORTFOLIO ===============*/
-
 let mixer = mixitup(".work__container", {
   selectors: {
     target: ".work__card",
@@ -60,7 +59,6 @@ workLinks.forEach((wl) => {
 });
 
 /*=============== SWIPER TESTIMONIAL ===============*/
-
 let swiperTestimonial = new Swiper(".testimonial__container", {
   spaceBetween: 24,
   loop: true,
@@ -83,7 +81,6 @@ let swiperTestimonial = new Swiper(".testimonial__container", {
 });
 
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
-
 const sections = document.querySelectorAll("section[id]");
 
 function scrollActive() {
@@ -112,33 +109,36 @@ const themeButton = document.getElementById("theme-button");
 const lightTheme = "light-theme";
 const iconTheme = "bx-sun";
 
-// Previously selected topic (if user selected)
+// Apply light as default
+document.body.classList.add(lightTheme);
+
+// Previously selected theme (if user selected)
 const selectedTheme = localStorage.getItem("selected-theme");
 const selectedIcon = localStorage.getItem("selected-icon");
 
-// We obtain the current theme that the interface has by validating the light-theme class
+// Helpers to get theme/icon
 const getCurrentTheme = () =>
-  document.body.classList.contains(lightTheme) ? "dark" : "light";
+  document.body.classList.contains(lightTheme) ? "light" : "dark";
 const getCurrentIcon = () =>
   themeButton.classList.contains(iconTheme) ? "bx bx-moon" : "bx bx-sun";
 
-// We validate if the user previously chose a topic
+// If user had a saved theme, apply it
 if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the light
-  document.body.classList[selectedTheme === "dark" ? "add" : "remove"](
-    lightTheme
-  );
-  themeButton.classList[selectedIcon === "bx bx-moon" ? "add" : "remove"](
-    iconTheme
-  );
+  if (selectedTheme === "dark") {
+    document.body.classList.remove(lightTheme);
+    themeButton.classList.add(iconTheme);
+  } else {
+    document.body.classList.add(lightTheme);
+    themeButton.classList.remove(iconTheme);
+  }
 }
 
-// Activate / deactivate the theme manually with the button
+// Toggle on click
 themeButton.addEventListener("click", () => {
-  // Add or remove the light / icon theme
   document.body.classList.toggle(lightTheme);
   themeButton.classList.toggle(iconTheme);
-  // We save the theme and the current icon that the user chose
+
+  // Save choice
   localStorage.setItem("selected-theme", getCurrentTheme());
   localStorage.setItem("selected-icon", getCurrentIcon());
 });
